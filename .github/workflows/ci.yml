@@ -22,7 +22,7 @@ jobs:
       matrix:
         node: [22, 24]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:
@@ -73,7 +73,7 @@ jobs:
       # A throwaway database in a service container. These tests never touch GitHub.
       INTEGRATION_DATABASE_URL: postgresql://devpulse:devpulse@localhost:5432/devpulse_test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:
@@ -97,7 +97,7 @@ jobs:
     timeout-minutes: 25
     needs: quality
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:
