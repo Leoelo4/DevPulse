@@ -18,7 +18,7 @@ export function SectionNav({
   active: string;
 }) {
   return (
-    <nav aria-label={label} className="-mx-1 overflow-x-auto overflow-y-hidden border-b">
+    <nav aria-label={label} className="relative -mx-1 overflow-x-auto overflow-y-hidden border-b">
       <ul className="flex min-w-max gap-1 px-1">
         {items.map((item) => {
           const isActive = item.id === active;

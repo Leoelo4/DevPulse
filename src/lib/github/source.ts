@@ -1,3 +1,4 @@
+import "server-only";
 import { ttlForResource, type CachedResourceKind, type RefreshMode } from "@/lib/cache/freshness";
 import type { MemoryCache } from "@/lib/cache/memory-cache";
 import type { DashboardDataSource } from "@/lib/data/source";

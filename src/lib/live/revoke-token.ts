@@ -1,3 +1,4 @@
+import "server-only";
 export type RevokeResult = { revoked: true } | { revoked: false; reason: string };
 
 /**

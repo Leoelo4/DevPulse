@@ -1,3 +1,4 @@
+import "server-only";
 import { Octokit } from "octokit";
 import { createConditionalFetch, withTimeout, type EtagCache } from "./conditional-fetch";
 import { shouldRetryRateLimit } from "./errors";

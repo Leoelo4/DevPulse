@@ -15,7 +15,8 @@ export async function ModeBadge() {
   if (viewer.kind === "demo") {
     return (
       <StatusBadge tone="merged" icon={FlaskConical} className="h-6 px-2 text-xs">
-        Demo mode · sample data
+        <span className="hidden sm:inline">Demo mode · sample data</span>
+        <span className="sm:hidden">Sample data</span>
       </StatusBadge>
     );
   }
@@ -24,7 +25,7 @@ export async function ModeBadge() {
     <div className="flex items-center gap-1">
       <RefreshButton />
       <StatusBadge tone="success" icon={GithubMark} className="h-6 px-2 text-xs">
-        Live · {viewer.name}
+        <span className="max-w-24 truncate sm:max-w-48">Live · {viewer.name}</span>
       </StatusBadge>
     </div>
   );

@@ -53,8 +53,8 @@ export function AccessCard({
                 <strong className="font-medium">Want private repositories?</strong> GitHub&apos;s
                 OAuth <code className="rounded bg-muted px-1 text-xs">repo</code> scope is broad: it
                 also technically allows writes, even though DevPulse only reads. If that is too
-                much, run your own DevPulse with a GitHub App for fine-grained read-only access (see
-                the README).
+                much, stay on public-only access; a GitHub App mode with fine-grained read-only
+                permissions is on the roadmap but not available yet.
               </span>
             </p>
             <form action={requestPrivateAccess}>

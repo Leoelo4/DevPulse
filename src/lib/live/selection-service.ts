@@ -1,3 +1,4 @@
+import "server-only";
 import type { MemoryCache } from "@/lib/cache/memory-cache";
 import type { RepoRef } from "@/lib/domain/types";
 import type { SelectionStore } from "@/lib/db/selection-store";

@@ -116,7 +116,7 @@ export function ChartCard({
           <div
             id={tableId}
             className={cn(
-              "w-full overflow-auto rounded-md border",
+              "relative w-full overflow-auto rounded-md border",
               height === "h-64" ? "max-h-64" : "max-h-80",
             )}
           >
