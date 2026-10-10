@@ -16,6 +16,7 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["src/**/*.test.{ts,tsx}"],
+    exclude: ["node_modules/**", "src/test-integration/**"],
     setupFiles: ["src/test/setup.ts"],
     clearMocks: true,
     restoreMocks: true,

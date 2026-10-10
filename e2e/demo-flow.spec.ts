@@ -125,6 +125,7 @@ test.describe("protected routes", () => {
       "/pull-requests",
       "/ci-releases",
       "/settings",
+      "/onboarding",
     ]) {
       await page.goto(path);
       await expect(page).toHaveURL("/");
