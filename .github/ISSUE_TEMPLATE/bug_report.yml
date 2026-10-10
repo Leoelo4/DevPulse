@@ -1,0 +1,67 @@
+name: Bug report
+description: Something is wrong or behaves differently than documented
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. **Do not include access tokens, secrets or private repository contents.**
+        Security problems should go through the [private reporting form](https://github.com/Leoelo4/DevPulse/security/advisories/new), not here.
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      description: Bugs that reproduce in demo mode are the easiest to fix.
+      options:
+        - Demo mode
+        - Live mode
+        - Both / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead?
+      description: Include any "partial view" or "unavailable" notice text that was shown, and screenshots if helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps, starting from the landing page. Include the page URL.
+      placeholder: |
+        1. Open http://localhost:3000 and choose "Explore the demo"
+        2. Go to Repositories and …
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and version, OS, Node.js version (`node -v`), and how you run DevPulse (local dev, `npm start`, hosted).
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console / server output
+      description: Browser console errors and server logs, with any secrets removed.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for a duplicate.
+          required: true
+        - label: I removed tokens, secrets and private data from this report.
+          required: true

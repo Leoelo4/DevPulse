@@ -44,6 +44,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Check documentation links
+        run: npm run docs:check-links
+
       - name: Unit tests
         run: npm test
 

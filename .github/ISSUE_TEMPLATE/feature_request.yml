@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest an improvement or a new metric
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        DevPulse favours a small number of well-defined, honest metrics over many loosely defined ones. Check [ROADMAP.md](https://github.com/Leoelo4/DevPulse/blob/main/ROADMAP.md) first — your idea may already be there and ready to pick up.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to see?
+    validations:
+      required: true
+  - type: textarea
+    id: metric
+    attributes:
+      label: If this is a metric — how is it defined?
+      description: Which GitHub data does it use, over what window, and what could it be misread as? What does it *not* measure?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you like to implement it?
+      options:
+        - "Yes, I'd like to open a pull request"
+        - "Maybe, with some guidance"
+        - "No, I'm suggesting it"
+    validations:
+      required: true

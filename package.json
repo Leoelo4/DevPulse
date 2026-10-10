@@ -23,7 +23,9 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "postinstall": "prisma generate",
-    "test:integration": "vitest run --config vitest.integration.config.mts"
+    "test:integration": "vitest run --config vitest.integration.config.mts",
+    "screenshots": "tsx scripts/screenshots.mts",
+    "docs:check-links": "tsx scripts/check-links.mts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
