@@ -21,7 +21,9 @@
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy"
+    "db:deploy": "prisma migrate deploy",
+    "postinstall": "prisma generate",
+    "test:integration": "vitest run --config vitest.integration.config.mts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
@@ -63,6 +65,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitest/coverage-v8": "^5.0.3",
+    "dotenv": "^18.0.7",
     "eslint": "^9.39.5",
     "eslint-config-next": "16.4.0",
     "eslint-config-prettier": "^10.1.8",

@@ -1,35 +1,81 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_THRESHOLDS } from "@/lib/metrics/thresholds";
-import { parseStoredThresholds, serializeThresholds, thresholdsInputSchema } from "./preferences";
+import {
+  DEFAULT_PREFERENCES,
+  parseStoredPreferences,
+  parseStoredThresholds,
+  serializePreferences,
+  thresholdsInputSchema,
+} from "./preferences";
 
-describe("parseStoredThresholds", () => {
+describe("parseStoredPreferences", () => {
   it("returns defaults when nothing is stored", () => {
-    expect(parseStoredThresholds(undefined)).toEqual(DEFAULT_THRESHOLDS);
-    expect(parseStoredThresholds("")).toEqual(DEFAULT_THRESHOLDS);
+    expect(parseStoredPreferences(undefined)).toEqual(DEFAULT_PREFERENCES);
+    expect(parseStoredPreferences("")).toEqual(DEFAULT_PREFERENCES);
   });
 
   it("round-trips valid values", () => {
-    const custom = { stalePullRequestDays: 7, staleIssueDays: 60, releaseOverdueDays: 30 };
-    expect(parseStoredThresholds(serializeThresholds(custom))).toEqual(custom);
+    const custom = {
+      thresholds: { stalePullRequestDays: 7, staleIssueDays: 60, releaseOverdueDays: 30 },
+      refreshMode: "conservative" as const,
+    };
+    expect(parseStoredPreferences(serializePreferences(custom))).toEqual(custom);
   });
 
   it("falls back to defaults for malformed JSON instead of throwing", () => {
-    expect(parseStoredThresholds("{not json")).toEqual(DEFAULT_THRESHOLDS);
-    expect(parseStoredThresholds("null")).toEqual(DEFAULT_THRESHOLDS);
-    expect(parseStoredThresholds("42")).toEqual(DEFAULT_THRESHOLDS);
+    for (const raw of ["{not json", "null", "42", "[]", '"str"']) {
+      expect(parseStoredPreferences(raw)).toEqual(DEFAULT_PREFERENCES);
+    }
   });
 
   it("replaces only the invalid fields with defaults (tampered or out-of-range values)", () => {
     const stored = JSON.stringify({
-      stalePullRequestDays: -5,
-      staleIssueDays: 45,
-      releaseOverdueDays: "abc",
+      thresholds: { stalePullRequestDays: -5, staleIssueDays: 45, releaseOverdueDays: "abc" },
+      refreshMode: "every-second",
     });
-    expect(parseStoredThresholds(stored)).toEqual({
-      stalePullRequestDays: DEFAULT_THRESHOLDS.stalePullRequestDays,
-      staleIssueDays: 45,
-      releaseOverdueDays: DEFAULT_THRESHOLDS.releaseOverdueDays,
+    expect(parseStoredPreferences(stored)).toEqual({
+      thresholds: {
+        stalePullRequestDays: DEFAULT_THRESHOLDS.stalePullRequestDays,
+        staleIssueDays: 45,
+        releaseOverdueDays: DEFAULT_THRESHOLDS.releaseOverdueDays,
+      },
+      refreshMode: "standard",
     });
+  });
+
+  it("still reads the original flat, thresholds-only cookie", () => {
+    const legacy = JSON.stringify({
+      stalePullRequestDays: 9,
+      staleIssueDays: 20,
+      releaseOverdueDays: 50,
+    });
+    expect(parseStoredPreferences(legacy)).toEqual({
+      thresholds: { stalePullRequestDays: 9, staleIssueDays: 20, releaseOverdueDays: 50 },
+      refreshMode: "standard",
+    });
+  });
+
+  it("only accepts known refresh modes", () => {
+    for (const mode of ["fresh", "standard", "conservative"]) {
+      expect(parseStoredPreferences(JSON.stringify({ refreshMode: mode })).refreshMode).toBe(mode);
+    }
+    expect(parseStoredPreferences(JSON.stringify({ refreshMode: "__proto__" })).refreshMode).toBe(
+      "standard",
+    );
+  });
+
+  it("does not let a stored prototype-pollution payload leak into the result", () => {
+    const parsed = parseStoredPreferences(
+      '{"__proto__":{"polluted":true},"thresholds":{"constructor":1}}',
+    );
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+    expect(parsed).toEqual(DEFAULT_PREFERENCES);
+  });
+});
+
+describe("parseStoredThresholds", () => {
+  it("returns just the thresholds", () => {
+    expect(parseStoredThresholds(undefined)).toEqual(DEFAULT_THRESHOLDS);
   });
 });
 

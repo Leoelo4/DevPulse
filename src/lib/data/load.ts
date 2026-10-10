@@ -3,7 +3,7 @@ import { connection } from "next/server";
 import { dataSourceFor, requireViewer, type Viewer } from "@/lib/auth/viewer";
 import type { RepositorySnapshot } from "@/lib/domain/types";
 import type { MetricThresholds } from "@/lib/metrics/thresholds";
-import { getThresholds } from "@/lib/preferences.server";
+import { getPreferences } from "@/lib/preferences.server";
 
 export interface DashboardContext {
   viewer: Viewer;
@@ -22,11 +22,11 @@ export async function loadDashboard(): Promise<DashboardContext> {
   // `new Date()` is request-specific: opt out of (pre)rendering before reading the clock.
   await connection();
   const now = new Date();
-  const [snapshots, thresholds] = await Promise.all([
-    dataSourceFor(viewer, now).getSnapshots(),
-    getThresholds(),
-  ]);
-  return { viewer, now, thresholds, snapshots };
+  const preferences = await getPreferences();
+  const snapshots = await (
+    await dataSourceFor(viewer, { now, refreshMode: preferences.refreshMode })
+  ).getSnapshots();
+  return { viewer, now, thresholds: preferences.thresholds, snapshots };
 }
 
 export interface RepositoryContext extends Omit<DashboardContext, "snapshots"> {
@@ -37,9 +37,9 @@ export async function loadRepository(owner: string, name: string): Promise<Repos
   const viewer = await requireViewer();
   await connection();
   const now = new Date();
-  const [snapshot, thresholds] = await Promise.all([
-    dataSourceFor(viewer, now).getSnapshot(owner, name),
-    getThresholds(),
-  ]);
-  return { viewer, now, thresholds, snapshot };
+  const preferences = await getPreferences();
+  const snapshot = await (
+    await dataSourceFor(viewer, { now, refreshMode: preferences.refreshMode })
+  ).getSnapshot(owner, name);
+  return { viewer, now, thresholds: preferences.thresholds, snapshot };
 }

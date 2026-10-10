@@ -1,10 +1,9 @@
 import "server-only";
 import { cookies } from "next/headers";
-import type { MetricThresholds } from "@/lib/metrics/thresholds";
-import { PREFS_COOKIE, parseStoredThresholds } from "./preferences";
+import { PREFS_COOKIE, parseStoredPreferences, type Preferences } from "./preferences";
 
-/** Metric thresholds for the current visitor (cookie-backed; defaults when unset or invalid). */
-export async function getThresholds(): Promise<MetricThresholds> {
+/** The current visitor's preferences (cookie-backed; defaults when unset or invalid). */
+export async function getPreferences(): Promise<Preferences> {
   const store = await cookies();
-  return parseStoredThresholds(store.get(PREFS_COOKIE)?.value);
+  return parseStoredPreferences(store.get(PREFS_COOKIE)?.value);
 }
