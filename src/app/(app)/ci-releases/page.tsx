@@ -38,7 +38,7 @@ export default async function CiReleasesPage({ searchParams }: PageProps<"/ci-re
           description="Choose repositories to see workflow reliability and release history."
           action={
             <Button asChild>
-              <Link href="/settings">Choose repositories</Link>
+              <Link href="/onboarding">Choose repositories</Link>
             </Button>
           }
         />

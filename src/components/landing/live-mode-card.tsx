@@ -1,16 +1,20 @@
-import { KeyRound } from "lucide-react";
+import { KeyRound, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { connection } from "next/server";
+import { signInWithGitHub } from "@/app/actions/live";
 import { GithubMark } from "@/components/common/github-mark";
 import { Button } from "@/components/ui/button";
+import { getViewer } from "@/lib/auth/viewer";
 import { getLiveModeStatus } from "@/lib/env";
 
 /**
- * Entry point for live mode. Environment is read at request time (not baked in at build time) so
- * the same build behaves correctly once credentials are provided.
+ * Entry point for live mode. Environment and session are read at request time (not baked in at
+ * build time) so the same build behaves correctly once credentials are provided.
  */
 export async function LiveModeCard() {
   await connection();
   const status = getLiveModeStatus();
+  const viewer = status.enabled ? await getViewer() : null;
 
   return (
     <div className="rounded-xl border bg-card p-5">
@@ -23,15 +27,11 @@ export async function LiveModeCard() {
             <h2 className="text-sm font-semibold">Live mode — your repositories</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Sign in with GitHub to analyse repositories you can access. Access tokens stay on the
-              server and DevPulse only requests read access.
+              server, and DevPulse only reads data.
             </p>
           </div>
 
-          {status.enabled ? (
-            <Button disabled>
-              <GithubMark aria-hidden /> Connect GitHub
-            </Button>
-          ) : (
+          {!status.enabled ? (
             <div className="space-y-2">
               <Button disabled aria-describedby="live-mode-setup">
                 <GithubMark aria-hidden /> Connect GitHub
@@ -57,6 +57,35 @@ export async function LiveModeCard() {
                   README.md → GitHub OAuth setup
                 </code>
                 .
+              </p>
+            </div>
+          ) : viewer?.kind === "live" ? (
+            <div className="space-y-2">
+              <p className="text-sm">
+                Signed in as <strong className="font-medium">{viewer.name}</strong>.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Button asChild>
+                  <Link href="/overview">Open your dashboard</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="/onboarding">Choose repositories</Link>
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <form action={signInWithGitHub}>
+                <Button type="submit">
+                  <GithubMark aria-hidden /> Connect GitHub
+                </Button>
+              </form>
+              <p className="flex items-start gap-1.5 text-xs leading-relaxed text-muted-foreground">
+                <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-success" aria-hidden />
+                <span>
+                  Starts with <strong className="font-medium">no scopes</strong>: public repository
+                  data only. Private repositories are a separate opt-in you can enable later.
+                </span>
               </p>
             </div>
           )}

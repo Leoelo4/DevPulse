@@ -27,7 +27,7 @@ export default async function PullRequestsPage({ searchParams }: PageProps<"/pul
           description="Choose repositories to see pull request throughput, age and review status."
           action={
             <Button asChild>
-              <Link href="/settings">Choose repositories</Link>
+              <Link href="/onboarding">Choose repositories</Link>
             </Button>
           }
         />

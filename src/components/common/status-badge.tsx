@@ -14,7 +14,7 @@ import {
   XCircle,
   type LucideIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import type {
   IndicatorStatus,
@@ -26,6 +26,9 @@ import type {
 import type { HealthLevel } from "@/lib/metrics/health";
 import type { CiStatus } from "@/lib/metrics/workflows";
 import { cn } from "@/lib/utils";
+
+/** Any icon component that accepts a class name and aria-hidden (Lucide icons, inline SVG marks). */
+export type IconComponent = ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
 
 export type Tone = "success" | "warning" | "danger" | "info" | "merged" | "neutral";
 
@@ -50,7 +53,7 @@ export function StatusBadge({
   spin = false,
 }: {
   tone: Tone;
-  icon: LucideIcon;
+  icon: IconComponent;
   children: ReactNode;
   className?: string;
   spin?: boolean;
