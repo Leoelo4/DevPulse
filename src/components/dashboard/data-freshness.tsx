@@ -13,9 +13,11 @@ export function DataFreshness({
 }) {
   return (
     <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      <Clock className="size-3.5" aria-hidden />
-      {mode === "demo" ? "Sample data generated " : "Data fetched from GitHub "}
-      <time dateTime={fetchedAt}>{formatRelative(fetchedAt, now)}</time>
+      <Clock className="size-3.5 shrink-0" aria-hidden />
+      <span>
+        {mode === "demo" ? "Sample data generated" : "Data fetched from GitHub"}{" "}
+        <time dateTime={fetchedAt}>{formatRelative(fetchedAt, now)}</time>
+      </span>
     </p>
   );
 }

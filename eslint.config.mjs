@@ -17,8 +17,8 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    // Tests and e2e specs may use console and non-null assertions freely.
-    files: ["**/*.test.{ts,tsx}", "e2e/**", "src/test/**"],
+    // Tests, e2e specs and command-line scripts may print to the console.
+    files: ["**/*.test.{ts,tsx}", "e2e/**", "src/test/**", "scripts/**"],
     rules: { "no-console": "off" },
   },
   prettier,
