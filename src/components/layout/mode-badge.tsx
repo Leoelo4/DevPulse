@@ -1,16 +1,33 @@
 import { FlaskConical } from "lucide-react";
-import { getViewer } from "@/lib/auth/viewer";
 import { StatusBadge } from "@/components/common/status-badge";
+import { GithubMark } from "@/components/common/github-mark";
+import { getViewer } from "@/lib/auth/viewer";
+import { RefreshButton } from "./refresh-button";
 
-/** Always-visible indicator of which data the viewer is looking at. Streams in behind Suspense. */
+/**
+ * Always-visible indicator of which data the viewer is looking at, plus the manual-refresh control
+ * for live data. Streams in behind Suspense.
+ */
 export async function ModeBadge() {
   const viewer = await getViewer();
   if (!viewer) return null;
 
+  if (viewer.kind === "demo") {
+    return (
+      <StatusBadge tone="merged" icon={FlaskConical} className="h-6 px-2 text-xs">
+        <span className="hidden sm:inline">Demo mode · sample data</span>
+        <span className="sm:hidden">Sample data</span>
+      </StatusBadge>
+    );
+  }
+
   return (
-    <StatusBadge tone="merged" icon={FlaskConical} className="h-6 px-2 text-xs">
-      Demo mode · sample data
-    </StatusBadge>
+    <div className="flex items-center gap-1">
+      <RefreshButton />
+      <StatusBadge tone="success" icon={GithubMark} className="h-6 px-2 text-xs">
+        <span className="max-w-24 truncate sm:max-w-48">Live · {viewer.name}</span>
+      </StatusBadge>
+    </div>
   );
 }
 

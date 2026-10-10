@@ -41,7 +41,7 @@ export default async function RepositoriesPage({ searchParams }: PageProps<"/rep
           description="Choose the repositories you want DevPulse to track."
           action={
             <Button asChild>
-              <Link href="/settings">Choose repositories</Link>
+              <Link href="/onboarding">Choose repositories</Link>
             </Button>
           }
         />

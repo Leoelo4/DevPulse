@@ -1,0 +1,26 @@
+# Local PostgreSQL for live mode development. Demo mode needs no database.
+#
+#   docker compose up -d
+#   npx prisma migrate deploy
+#
+# The credentials below are for local development only and match .env.example.
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: devpulse
+      POSTGRES_PASSWORD: devpulse
+      POSTGRES_DB: devpulse
+    ports:
+      - "5432:5432"
+    volumes:
+      - devpulse-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devpulse -d devpulse"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  devpulse-pgdata:

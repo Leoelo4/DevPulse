@@ -2,6 +2,7 @@ import { Activity, GitPullRequest, Rocket, ShieldCheck, Users, FlaskConical } fr
 import { Suspense } from "react";
 import { enterDemoMode } from "@/app/actions/mode";
 import { Brand } from "@/components/layout/brand";
+import { LandingNotice } from "@/components/landing/landing-notice";
 import { LiveModeCard, LiveModeCardFallback } from "@/components/landing/live-mode-card";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,7 @@ const FEATURES = [
   },
 ];
 
-export default function LandingPage() {
+export default function LandingPage({ searchParams }: PageProps<"/">) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4 sm:px-6">
@@ -60,6 +61,12 @@ export default function LandingPage() {
             number does and doesn&apos;t measure.
           </p>
         </section>
+
+        <Suspense fallback={null}>
+          <div className="mt-8 max-w-2xl empty:hidden">
+            <LandingNotice searchParams={searchParams} />
+          </div>
+        </Suspense>
 
         <section className="mt-10 grid gap-4 md:grid-cols-2" aria-label="Choose how to start">
           <div className="rounded-xl border bg-card p-5">

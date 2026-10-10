@@ -1,7 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/** Scrollable bordered table frame with an accessible caption. */
+/**
+ * Scrollable bordered table frame with an accessible caption.
+ *
+ * `relative` matters: visually-hidden (`sr-only`) text is absolutely positioned, and an overflow
+ * container only clips absolutely positioned descendants when it is their containing block. Without
+ * it, hidden text at the far right of a wide table widens the scroll area of the whole page.
+ */
 export function DataTable({
   caption,
   minWidth = "min-w-[40rem]",
@@ -14,7 +20,7 @@ export function DataTable({
   className?: string;
 }) {
   return (
-    <div className={cn("overflow-x-auto rounded-xl border bg-card", className)}>
+    <div className={cn("relative overflow-x-auto rounded-xl border bg-card", className)}>
       <table className={cn("w-full text-left text-sm", minWidth)}>
         <caption className="sr-only">{caption}</caption>
         {children}

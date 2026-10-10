@@ -75,7 +75,7 @@ export function RepoTable({
   now: Date;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border bg-card">
+    <div className="relative overflow-x-auto rounded-xl border bg-card">
       <table className="w-full min-w-[56rem] text-left text-sm">
         <caption className="sr-only">
           Tracked repositories. Column headers are links that change the sort order.

@@ -32,7 +32,7 @@ export default async function OverviewPage() {
           description="Choose the repositories you want DevPulse to track and your dashboard will fill in."
           action={
             <Button asChild>
-              <Link href="/settings">Choose repositories</Link>
+              <Link href="/onboarding">Choose repositories</Link>
             </Button>
           }
         />
