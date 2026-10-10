@@ -1,0 +1,239 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * DevPulse design tokens.
+ *
+ * Surfaces are charcoal/slate with one restrained blue accent. Status colours
+ * (success / warning / danger) are reserved for state and always paired with an
+ * icon and a label in the UI. Chart series colours come from a palette that was
+ * validated for colour-vision separation against the chart surface in both modes.
+ * Dark mode is the default; light mode is a first-class theme (see ThemeProvider).
+ */
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-demo: var(--demo);
+  --color-demo-foreground: var(--demo-foreground);
+  --color-merged: var(--merged);
+
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+  --color-series-4: var(--series-4);
+  --color-status-good: var(--status-good);
+  --color-status-critical: var(--status-critical);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-axis: var(--chart-axis);
+
+  --color-chart-1: var(--series-1);
+  --color-chart-2: var(--series-2);
+  --color-chart-3: var(--series-3);
+  --color-chart-4: var(--series-4);
+  --color-chart-5: var(--muted-foreground);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: #f6f7f9;
+  --foreground: #14161a;
+  --card: #ffffff;
+  --card-foreground: #14161a;
+  --popover: #ffffff;
+  --popover-foreground: #14161a;
+  --primary: #256abf;
+  --primary-foreground: #ffffff;
+  --secondary: #eceef2;
+  --secondary-foreground: #1d2026;
+  --muted: #eceef2;
+  --muted-foreground: #565d6a;
+  --accent: #e8ebf0;
+  --accent-foreground: #14161a;
+  --destructive: #c42f2f;
+  --border: #e1e4e9;
+  --input: #d3d8df;
+  --ring: #256abf;
+
+  --success: #006300;
+  --success-foreground: #ffffff;
+  --warning: #8a5a00;
+  --warning-foreground: #ffffff;
+  --danger: #b42626;
+  --danger-foreground: #ffffff;
+  --info: #256abf;
+  --info-foreground: #ffffff;
+  --demo: #6a4bc2;
+  --demo-foreground: #ffffff;
+  --merged: #6a4bc2;
+
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  /* Status fills for charts (reserved for pass/fail; always paired with icon + label in legends). */
+  --status-good: #0ca30c;
+  --status-critical: #d03b3b;
+  --chart-grid: #e6e8ed;
+  --chart-axis: #c9ced6;
+
+  --sidebar: #fbfbfc;
+  --sidebar-foreground: #14161a;
+  --sidebar-primary: #256abf;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eceef2;
+  --sidebar-accent-foreground: #14161a;
+  --sidebar-border: #e1e4e9;
+  --sidebar-ring: #256abf;
+}
+
+.dark {
+  --background: #101216;
+  --foreground: #e8eaee;
+  --card: #16181d;
+  --card-foreground: #e8eaee;
+  --popover: #1b1e24;
+  --popover-foreground: #e8eaee;
+  --primary: #3987e5;
+  --primary-foreground: #06101f;
+  --secondary: #1f2228;
+  --secondary-foreground: #e8eaee;
+  --muted: #1c1f25;
+  --muted-foreground: #9aa1ad;
+  --accent: #23272e;
+  --accent-foreground: #f2f4f7;
+  --destructive: #e66767;
+  --border: #262a31;
+  --input: #30353d;
+  --ring: #3987e5;
+
+  --success: #34c26b;
+  --success-foreground: #04170b;
+  --warning: #fab219;
+  --warning-foreground: #1c1300;
+  --danger: #f0716f;
+  --danger-foreground: #240808;
+  --info: #5fa0ee;
+  --info-foreground: #06101f;
+  --demo: #a99cf0;
+  --demo-foreground: #12092f;
+  --merged: #a99cf0;
+
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --status-good: #0ca30c;
+  --status-critical: #d03b3b;
+  --chart-grid: #23262d;
+  --chart-axis: #343942;
+
+  --sidebar: #121418;
+  --sidebar-foreground: #e8eaee;
+  --sidebar-primary: #3987e5;
+  --sidebar-primary-foreground: #06101f;
+  --sidebar-accent: #1c1f25;
+  --sidebar-accent-foreground: #f2f4f7;
+  --sidebar-border: #23262d;
+  --sidebar-ring: #3987e5;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 35%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Recharts renders SVG text with its own defaults; keep it on the text tokens. */
+  .recharts-text,
+  .recharts-cartesian-axis-tick-value {
+    fill: var(--muted-foreground);
+    font-size: 11px;
+  }
+  .recharts-cartesian-grid line {
+    stroke: var(--chart-grid);
+  }
+  .recharts-cartesian-axis-line,
+  .recharts-cartesian-axis-tick-line {
+    stroke: var(--chart-axis);
+  }
+  .recharts-surface:focus,
+  .recharts-wrapper:focus {
+    outline: none;
+  }
+}
